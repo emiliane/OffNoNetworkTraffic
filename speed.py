@@ -2,8 +2,6 @@ interface = "wlp2s0"
 file = "speed.txt"
 ##########################
 
-
-
 def getReceiveBytes():
     dev = open("/proc/net/dev", "r").readlines()
     header_line = dev[1]
