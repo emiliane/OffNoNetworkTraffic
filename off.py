@@ -23,6 +23,7 @@ def worker ():
     RETRIES_COUNT = RETRIES
     while True:
         #SPEED = int(float(getoutput("ifstat -i %s 1 1 | awk '{print $1}' | sed -n '3p'" % INTERFACE)))
+        print("Speed is " + getSpeed() + " KB/s.")
         SPEED = int(float(getSpeed()))
         print(SPEED)
         if (SPEED < MINIMUM_SPEED and RETRIES_COUNT <= 0):
@@ -31,10 +32,12 @@ def worker ():
         elif SPEED < MINIMUM_SPEED:
             print("Versiunea elif.")
             RETRIES_COUNT -= 1
+            print("Doarme pentru " + str(INTERVAL) + " secunde.")
             time.sleep(INTERVAL)
         else:
             print("Versiunea else.")
             RETRIES_COUNT = RETRIES
+            print("Doarme pentru " + str(INTERVAL) + " secunde.")
             time.sleep(INTERVAL)
 
 file = "speed.txt"
@@ -44,4 +47,8 @@ def getSpeed ():
     speed = f.read()
     return str(speed)
 
-worker()
+while (True):
+    try:
+        worker()
+    except:
+        print("An exception occurred.")
