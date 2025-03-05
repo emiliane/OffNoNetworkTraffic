@@ -45,7 +45,7 @@ async def new_bytes():
         receivedBs = totalReceiveBytes - lastReceiveBytes
 
         speedBytes = receivedBs
-        print("Viteza de descărcare este de " + str(speedBytes) + " octeți pe secundă.")
+        #print("Viteza de descărcare este de " + str(speedBytes) + " octeți pe secundă.")
 
         await asyncio.sleep(1)
 
@@ -54,18 +54,18 @@ async def worker():
     RETRIES_COUNT = RETRIES
     while True:
         SPEED = speedBytes / 1024
-        print("Viteza este de " + str(SPEED) + " KO/s.")
+        #print("Viteza este de " + str(SPEED) + " KO/s.")
 
         if (SPEED < MINIMUM_SPEED and RETRIES_COUNT <= 0):
             print("Se oprește imediat!")
-            #os.system("shutdown -h now")
-            os.system("shutdown -h +44")
+            os.system("shutdown -h now")
             break
         elif SPEED < MINIMUM_SPEED:
-            print("S-a întâmplat de " + str(RETRIES -RETRIES_COUNT + 1) + " din " + str(RETRIES) + " consecutiv ca viteza să fie mai mică decât " + str(MINIMUM_SPEED) + "KB/s.")
+            print("Viteza de descărcare " + str(SPEED) + " KO/s este mai mică decât cea minimă " + str(MINIMUM_SPEED) + "KB/s. S-a întâmplat consecutiv de " + str(RETRIES -RETRIES_COUNT + 1) + " din " + str(RETRIES) + " ori!")
             RETRIES_COUNT -= 1
             await asyncio.sleep(INTERVAL)
         else:
+            print("Viteza de descărcare " + str(SPEED) + " KO/s este mai mare decât cea minimă " + str(MINIMUM_SPEED) + "KB/s.")
             RETRIES_COUNT = RETRIES
             await asyncio.sleep(INTERVAL)
 
