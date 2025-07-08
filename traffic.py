@@ -21,6 +21,11 @@ INTERVAL = 10
 
 # from commands import getoutput
 
+def battery_capacity():
+    capacity = open("/sys/class/power_supply/BAT0/capacity", "r").readlines()
+    capacity = float(capacity[0])
+
+    return capacity
 
 def traffic_monitor():
     dev = open("/proc/net/dev", "r").readlines()
