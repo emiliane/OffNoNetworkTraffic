@@ -7,7 +7,7 @@ import datetime
 import asyncio
 import os
 
-INTERFACE = "wlp2s0"
+BATTERY = 25
 
 # Set the minimum download speed in KB/s that must be achieved.
 MINIMUM_SPEED = 444
@@ -126,6 +126,7 @@ async def worker():
     await asyncio.sleep(2)
     RETRIES_COUNT = RETRIES
     while True:
+        battery = battery_capacity()
         SPEED = speedBytes / 1024
         # print("Viteza este de " + str(SPEED) + " KO/s.")
 
@@ -143,6 +144,10 @@ async def worker():
                   " KB/s este mai mare decât cea minimă " + str(MINIMUM_SPEED) + "KB/s.")
             RETRIES_COUNT = RETRIES
             await asyncio.sleep(INTERVAL)
+        
+        if (battery <= BATTERY):
+            print("Se oprește imediat!")
+            os.system("shutdown -h now")
 
 
 INTERFACE = choose_interface()
